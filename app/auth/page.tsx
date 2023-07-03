@@ -7,12 +7,13 @@ import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import { FaApple } from 'react-icons/fa';
-import { signIn } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { redirect } from 'next/dist/server/api-utils';
 import { useRouter } from 'next/navigation';
 
 const Auth = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const [email, setEmail] = useState('');
   const [username, setUserName] = useState('');
@@ -135,6 +136,13 @@ const Auth = () => {
                   : 'logueate aqui'}
               </span>
             </p>
+            {status === 'authenticated' ? (
+              <p className='text-white text-md mt-2'>
+                Signed in as {session?.user?.email}
+              </p>
+            ) : (
+              <p>Not signed in</p>
+            )}
           </div>
         </div>
       </div>

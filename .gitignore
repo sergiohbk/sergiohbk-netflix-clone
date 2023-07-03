@@ -6,6 +6,10 @@
 .pnp.js
 .env
 
+# unnecessary files
+/lib/fetcher.ts
+/lib/serverauth.ts
+
 # testing
 /coverage
 
