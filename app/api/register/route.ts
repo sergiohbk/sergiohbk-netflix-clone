@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server';
 //buscar en documentacion
 
 export async function POST(req: Request) {
-  console.log(req);
   try {
     const body = await req.json();
     const { username, password, email } = body;
@@ -31,6 +30,14 @@ export async function POST(req: Request) {
         emailVerified: new Date(),
       },
     });
+
+    const user = {
+      id: User.id,
+      email: User.email,
+      name: User.name,
+      image: User.image,
+      favoritesIds: User.favoriteIds,
+    };
 
     return NextResponse.json(User);
   } catch (error) {

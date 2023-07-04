@@ -1,6 +1,8 @@
 'use client';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import LoadingPage from '@/components/loadingPage';
+import Navbar from '@/components/navbar';
 
 export default function Home() {
   const router = useRouter();
@@ -14,22 +16,5 @@ export default function Home() {
     },
   });
 
-  if (status === 'loading') {
-    return <p className='text-white'>Cargando...</p>;
-  }
-
-  return (
-    <div>
-      <p className='text-white'>
-        Session: {JSON.stringify(session)}
-        status: {status}
-      </p>
-      <button
-        className='h-10 w-full bg-white'
-        onClick={() => signOut()}
-      >
-        Salir
-      </button>
-    </div>
-  );
+  return <Navbar></Navbar>;
 }

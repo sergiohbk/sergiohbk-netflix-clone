@@ -15,6 +15,8 @@ const Auth = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
+  if (status === 'authenticated') router.push('/');
+
   const [email, setEmail] = useState('');
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -32,12 +34,17 @@ const Auth = () => {
         email,
         password,
       });
-      console.log(response.data);
+      if (response.status === 200) {
+        signIn('credentials', {
+          email,
+          password,
+          callbackUrl: '/profile',
+        });
+      }
     } catch (error) {
       console.log(error);
     }
   }, [username, email, password]);
-
   return (
     <div className="relative h-full w-full bg-[url('/images/background.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
       <div className='bg-black w-full h-full lg:bg-opacity-50'>
@@ -88,7 +95,16 @@ const Auth = () => {
               ></Input>
             </div>
             {variant === 'login' ? (
-              <button className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'>
+              <button
+                onClick={() =>
+                  signIn('credentials', {
+                    email,
+                    password,
+                    callbackUrl: '/profile',
+                  })
+                }
+                className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'
+              >
                 Entrar
               </button>
             ) : (
@@ -102,7 +118,7 @@ const Auth = () => {
             <div className='flex flex-row items-center gap-4 mt-8 justify-center'>
               <div
                 onClick={() =>
-                  signIn('google', { callbackUrl: '/' })
+                  signIn('google', { callbackUrl: '/profile' })
                 }
                 className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
               >
@@ -110,14 +126,16 @@ const Auth = () => {
               </div>
               <div
                 onClick={() =>
-                  signIn('github', { callbackUrl: '/' })
+                  signIn('github', { callbackUrl: '/profile' })
                 }
                 className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
               >
                 <FaGithub size={30} />
               </div>
               <div
-                onClick={() => router.push('/applenotfound')}
+                onClick={() =>
+                  signIn('apple', { callbackUrl: '/profile' })
+                }
                 className='w-10 h-10 bg-white rounded-full flex items-center justify-center cursor-pointer hover:opacity-80 transition'
               >
                 <FaApple size={30} />
@@ -136,13 +154,6 @@ const Auth = () => {
                   : 'logueate aqui'}
               </span>
             </p>
-            {status === 'authenticated' ? (
-              <p className='text-white text-md mt-2'>
-                Signed in as {session?.user?.email}
-              </p>
-            ) : (
-              <p>Not signed in</p>
-            )}
           </div>
         </div>
       </div>
