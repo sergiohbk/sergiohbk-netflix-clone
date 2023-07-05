@@ -3,11 +3,26 @@ import NavbarItem from '@/components/navbaritem';
 import { BsBell, BsChevronDown, BsSearch } from 'react-icons/bs';
 import MobileMenu from '@/components/mobilemenu';
 import AccountMenu from '@/components/accountmenu';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+
+const TOP_OFFSET = 66;
 
 const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
+  const [showBackground, setShowBackground] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > TOP_OFFSET) setShowBackground(true);
+      else setShowBackground(false);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   const toggleMobileMenu = useCallback(() => {
     setShowMobileMenu((prev) => !prev);
@@ -20,8 +35,10 @@ const Navbar = () => {
   return (
     <nav className='w-full fixed z-40'>
       <div
-        className='px-4 md:px-16 py-6 flex flex-row items-center trasition duration-500 bg-zinc-900 bg-opacity-90
-      '
+        className={`px-4 md:px-16 py-6 flex flex-row items-center trasition duration-500 ${
+          showBackground ? 'bg-zinc-900 bg-opacity-90' : ''
+        }
+      `}
       >
         <Image
           className='h-4 lg:h-7 w-auto'
@@ -67,7 +84,6 @@ const Navbar = () => {
             </div>
             <BsChevronDown
               onMouseOver={() => toggleAccountHover(true)}
-              onMouseLeave={() => toggleAccountHover(false)}
               className={`text-white text-xs transition ${
                 showAccountMenu ? 'rotate-180' : 'rotate-0'
               }`}

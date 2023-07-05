@@ -5,14 +5,7 @@ import Image from 'next/image';
 
 const Profiles = () => {
   const router = useRouter();
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      return {
-        redirect: router.push('/auth'),
-      };
-    },
-  });
+  const { data: session, status } = useSession();
 
   return (
     <div className='flex items-center h-full justify-center'>

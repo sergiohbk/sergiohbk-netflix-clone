@@ -1,5 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
+import { signOut } from 'next-auth/react';
 
 interface AccountMenuProps {
   visible: boolean;
@@ -28,7 +29,10 @@ const AccountMenu: React.FC<AccountMenuProps> = ({
           </p>
         </div>
         <hr className='bg-gray-600 border-0 h-px my-4'></hr>
-        <div className='px-3 text-center text-white text-sm hover:underline'>
+        <div
+          onClick={() => signOut()}
+          className='px-3 text-center text-white text-sm hover:underline cursor-pointer'
+        >
           Cerrar Sesion
         </div>
       </div>
