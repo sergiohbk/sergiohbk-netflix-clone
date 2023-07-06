@@ -10,6 +10,9 @@
 /lib/fetcher.ts
 /lib/serverauth.ts
 
+# videos
+/public/storage/videos
+
 # testing
 /coverage
 

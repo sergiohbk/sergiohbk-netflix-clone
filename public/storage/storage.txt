@@ -1,0 +1,3 @@
+aqui supuestamente se suben los videos, en un storage online como google cloud o en un servidor particular
+pero como la mayoria son de pago, hay que registrase y los servicios de almacenamiento en la nube no permiten
+stremear videos (y no quiero reproductores embedidos), pues lo pongo aqui

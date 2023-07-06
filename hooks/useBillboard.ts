@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 interface MovieType {
   id: number;
   title: string;
-  description: String;
-  videoUrl: String;
-  thumnailUrl: String;
-  genre: String;
-  duration: String;
+  description: string;
+  videoUrl: string;
+  thumnailUrl: string;
+  genre: string;
+  duration: string;
 }
 
 function useBillboard(url: string) {
