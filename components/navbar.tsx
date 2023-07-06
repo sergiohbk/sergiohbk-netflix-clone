@@ -46,6 +46,7 @@ const Navbar = () => {
           alt='netflix logo'
           width={150}
           height={150}
+          priority={true}
         ></Image>
         <div className='flex-row ml-8 gap-7 hidden lg:flex'>
           <NavbarItem label='Series' />

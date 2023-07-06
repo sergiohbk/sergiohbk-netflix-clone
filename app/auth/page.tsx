@@ -7,19 +7,17 @@ import axios from 'axios';
 import { FcGoogle } from 'react-icons/fc';
 import { FaGithub } from 'react-icons/fa';
 import { FaApple } from 'react-icons/fa';
-import { signIn, useSession } from 'next-auth/react';
-import { redirect } from 'next/dist/server/api-utils';
+import { signIn } from 'next-auth/react';
+import { useForm, FieldValues } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
+import Button from './button';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
 
 const Auth = () => {
+  const { status } = useSession();
   const router = useRouter();
-  const { data: session, status } = useSession();
 
-  if (status === 'authenticated') router.push('/');
-
-  const [email, setEmail] = useState('');
-  const [username, setUserName] = useState('');
-  const [password, setPassword] = useState('');
   const [variant, setVariant] = useState('login');
   const toggleVariant = useCallback(() => {
     setVariant((currentVariant) =>
@@ -27,24 +25,51 @@ const Auth = () => {
     );
   }, []);
 
-  const register = useCallback(async () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FieldValues>({
+    defaultValues: {
+      email: '',
+      password: '',
+      username: '',
+    },
+  });
+
+  const onSubmit = async (data: FieldValues) => {
     try {
-      const response = await axios.post('/api/register', {
-        username,
-        email,
-        password,
-      });
-      if (response.status === 200) {
+      if (variant === 'login') {
         signIn('credentials', {
-          email,
-          password,
+          email: data.email,
+          password: data.password,
           callbackUrl: '/profile',
         });
+      } else if (variant === 'register') {
+        const response = await axios.post('/api/register', {
+          username: data.username,
+          email: data.email,
+          password: data.password,
+        });
+        if (response.status === 200) {
+          signIn('credentials', {
+            email: data.email,
+            password: data.password,
+            callbackUrl: '/profile',
+          });
+        }
       }
     } catch (error) {
       console.log(error);
     }
-  }, [username, email, password]);
+  };
+
+  useEffect(() => {
+    if (status === 'authenticated') {
+      router.push('/profile');
+    }
+  }, [status, router]);
+
   return (
     <div className="relative h-full w-full bg-[url('/images/background.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
       <div className='bg-black w-full h-full lg:bg-opacity-50'>
@@ -62,59 +87,66 @@ const Auth = () => {
         <div className='flex justify-center'>
           <div className='bg-black bg-opacity-70 px-16 py-16 self-center mt-2 lg:w-2/5 lg:max-w-md rounded-md w-full'>
             <h2 className='text-white text-4xl mb-8 font-semibold'>
-              {variant === 'login' ? 'Loguearse' : 'Registrarse'}
+              {variant === 'login'
+                ? 'Entrar a Netflix'
+                : 'Registro'}
             </h2>
-            <div className='flex flex-col gap-4'>
-              {variant === 'register' && (
-                <Input
-                  label='Nombre de usuario'
-                  onChange={(
-                    ev: React.ChangeEvent<HTMLInputElement>,
-                  ) => setUserName(ev.target.value)}
-                  id='name'
-                  value={username}
-                ></Input>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {variant === 'register' ? (
+                <div className='flex flex-col gap-4'>
+                  <Input
+                    label='Nombre de usuario'
+                    id='username'
+                    type='text'
+                    register={register}
+                    errors={errors}
+                    required={true}
+                  ></Input>
+                  <Input
+                    label='Email'
+                    id='email'
+                    type='email'
+                    register={register}
+                    errors={errors}
+                    required={true}
+                  ></Input>
+                  <Input
+                    label='Contraseña'
+                    id='password'
+                    type='password'
+                    register={register}
+                    errors={errors}
+                    required={true}
+                  ></Input>
+                  <Button disabled={false} type='submit'>
+                    Registrarse
+                  </Button>
+                </div>
+              ) : (
+                <div className='flex flex-col gap-4'>
+                  <Input
+                    label='Email'
+                    id='email'
+                    type='email'
+                    register={register}
+                    errors={errors}
+                    required={true}
+                  ></Input>
+                  <Input
+                    label='Contraseña'
+                    id='password'
+                    type='password'
+                    register={register}
+                    errors={errors}
+                    required={true}
+                  ></Input>
+                  <Button disabled={false} type='submit'>
+                    Entrar
+                  </Button>
+                </div>
               )}
-              <Input
-                label='Email'
-                onChange={(
-                  ev: React.ChangeEvent<HTMLInputElement>,
-                ) => setEmail(ev.target.value)}
-                id='email'
-                type='email'
-                value={email}
-              ></Input>
-              <Input
-                label='Contraseña'
-                onChange={(
-                  ev: React.ChangeEvent<HTMLInputElement>,
-                ) => setPassword(ev.target.value)}
-                id='password'
-                type='password'
-                value={password}
-              ></Input>
-            </div>
-            {variant === 'login' ? (
-              <button
-                onClick={() =>
-                  signIn('credentials', {
-                    email,
-                    password,
-                    callbackUrl: '/profile',
-                  })
-                }
-                className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'
-              >
-                Entrar
-              </button>
-            ) : (
-              <button
-                onClick={register}
-                className='bg-red-600 py-3 text-white rounded-md w-full mt-10 hover:bg-red-700 transition'
-              >
-                Registrarse
-              </button>
-            )}
+            </form>
+
             <div className='flex flex-row items-center gap-4 mt-8 justify-center'>
               <div
                 onClick={() =>

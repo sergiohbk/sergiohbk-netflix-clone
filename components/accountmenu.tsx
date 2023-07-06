@@ -1,6 +1,6 @@
 import React from 'react';
 import Image from 'next/image';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 
 interface AccountMenuProps {
   visible: boolean;
@@ -9,6 +9,7 @@ interface AccountMenuProps {
 const AccountMenu: React.FC<AccountMenuProps> = ({
   visible,
 }) => {
+  const { data: session } = useSession();
   if (!visible) return null;
 
   return (
@@ -25,7 +26,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({
             height={150}
           />
           <p className='text-white text-sm group-hover/item:underline'>
-            username
+            {session?.user?.name}
           </p>
         </div>
         <hr className='bg-gray-600 border-0 h-px my-4'></hr>
