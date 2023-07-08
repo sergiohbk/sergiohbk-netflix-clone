@@ -1,18 +1,9 @@
-import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useState, useEffect } from 'react';
+import { MovieType } from './useMovieList';
 
-export interface MovieType {
-  id: string;
-  title: string;
-  description: string;
-  videoUrl: string;
-  thumnailUrl: string;
-  genre: string;
-  duration: string;
-}
-
-function useMovieList(url: string) {
-  const [data, setData] = useState<MovieType[] | null>(null);
+function useFavorites(url: string) {
+  const [data, setData] = useState<MovieType[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -33,4 +24,4 @@ function useMovieList(url: string) {
   return { data, loading, error };
 }
 
-export default useMovieList;
+export default useFavorites;
