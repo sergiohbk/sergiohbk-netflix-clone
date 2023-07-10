@@ -2,15 +2,20 @@
 import { MovieType } from '@/hooks/useMovieList';
 import { isEmpty } from 'lodash';
 import MovieCard from './moviecard';
+import { UserType } from '@/hooks/useUser';
 
 interface MovieListProps {
   data: MovieType[] | null;
   title: string;
+  refetch?: () => void;
+  updateUser: (user: UserType) => void;
 }
 
 const MovieList: React.FC<MovieListProps> = ({
   data,
   title,
+  refetch,
+  updateUser,
 }) => {
   if (isEmpty(data)) return null;
 
@@ -22,7 +27,12 @@ const MovieList: React.FC<MovieListProps> = ({
         </p>
         <div className='grid grid-cols-4 gap-2'>
           {data?.map((movie) => (
-            <MovieCard key={movie.id} data={movie}></MovieCard>
+            <MovieCard
+              key={movie.id}
+              data={movie}
+              refetch={refetch}
+              updateUser={updateUser}
+            ></MovieCard>
           ))}
         </div>
       </div>

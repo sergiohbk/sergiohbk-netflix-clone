@@ -6,6 +6,7 @@ function useFavorites(url: string) {
   const [data, setData] = useState<MovieType[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [trigger, setTrigger] = useState<number>(0);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,9 +20,15 @@ function useFavorites(url: string) {
       }
     };
     fetchData();
-  }, [url]);
+    console.log('useFavorites fetch data');
+  }, [url, trigger]);
 
-  return { data, loading, error };
+  const refetch = () => {
+    // Nueva función para "disparar" el efecto
+    setTrigger((value) => value + 1);
+  };
+
+  return { data, refetch, trigger, loading, error };
 }
 
 export default useFavorites;

@@ -1,12 +1,19 @@
+import { without } from 'lodash';
+
 import prisma from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 import getCurrentUser from '@/requests/getCurrentUser';
 
-export async function POST(req: Request) {
+export async function DELETE(
+  req: Request,
+  {
+    params,
+  }: {
+    params: { movieId: string };
+  },
+) {
   try {
     const user = await getCurrentUser();
-    const body = await req.json();
-    const { movieId } = body;
     if (!user)
       return new NextResponse(
         'No se ha podido recuperar el usuario',
@@ -15,25 +22,40 @@ export async function POST(req: Request) {
 
     const existingMovie = await prisma.movie.findUnique({
       where: {
-        id: movieId,
+        id: params.movieId,
       },
     });
+
     if (!existingMovie)
       return new NextResponse(
         'No se ha podido recuperar la pelicula',
         { status: 404 },
       );
-    const userWithFavorite = await prisma.user.update({
+
+    const userWithFavorite = await prisma.user.findUnique({
+      where: {
+        email: user.email || '',
+      },
+    });
+    if (!userWithFavorite)
+      return new NextResponse(
+        'No se ha podido recuperar el usuario',
+        { status: 404 },
+      );
+
+    const favoriteIds = without(
+      userWithFavorite.favoriteIds,
+      params.movieId,
+    );
+    const userWithoutFavorite = await prisma.user.update({
       where: {
         email: user.email || '',
       },
       data: {
-        favoriteIds: {
-          push: movieId,
-        },
+        favoriteIds,
       },
     });
-    return NextResponse.json(userWithFavorite);
+    return NextResponse.json(userWithoutFavorite);
   } catch (err) {
     console.log(err);
     return NextResponse.error();

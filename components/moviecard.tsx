@@ -2,12 +2,19 @@ import { MovieType } from '@/hooks/useMovieList';
 import Image from 'next/image';
 import { BsFillPlayFill } from 'react-icons/bs';
 import FavoriteButton from './favoritebutton';
+import { UserType } from '@/hooks/useUser';
 
 interface MovieCardProps {
   data: MovieType;
+  refetch?: () => void;
+  updateUser: (user: UserType) => void;
 }
 
-const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
+const MovieCard: React.FC<MovieCardProps> = ({
+  data,
+  refetch,
+  updateUser,
+}) => {
   return (
     <div className='group bg-zinc-900 col-span relative h-[20vw]'>
       <Image
@@ -35,7 +42,11 @@ const MovieCard: React.FC<MovieCardProps> = ({ data }) => {
             >
               <BsFillPlayFill size={30} />
             </div>
-            <FavoriteButton movieId={data.id}></FavoriteButton>
+            <FavoriteButton
+              movieId={data.id}
+              refetch={refetch}
+              updateUser={updateUser}
+            ></FavoriteButton>
           </div>
 
           <p className='text-green-400 font-semibold mt-4 '>
