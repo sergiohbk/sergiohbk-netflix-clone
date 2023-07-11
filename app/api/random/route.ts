@@ -19,7 +19,7 @@ export async function GET(req: NextApiRequest) {
       skip: randomIndex,
     });
 
-    return NextResponse.json(randomMovie);
+    return NextResponse.json(randomMovie[0]);
   } catch (error: any) {
     console.log(error);
     return NextResponse.json(

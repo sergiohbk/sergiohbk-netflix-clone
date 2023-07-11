@@ -1,8 +1,11 @@
+'use client';
+
 import { MovieType } from '@/hooks/useMovieList';
 import Image from 'next/image';
 import { BsFillPlayFill } from 'react-icons/bs';
 import FavoriteButton from './favoritebutton';
 import { UserType } from '@/hooks/useUser';
+import { useRouter } from 'next/navigation';
 
 interface MovieCardProps {
   data: MovieType;
@@ -15,6 +18,8 @@ const MovieCard: React.FC<MovieCardProps> = ({
   refetch,
   updateUser,
 }) => {
+  const router = useRouter();
+
   return (
     <div className='group bg-zinc-900 col-span relative h-[20vw]'>
       <Image
@@ -38,7 +43,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
           <div className='flex flex-row items-center gap-3'>
             <div
               className='cursor-pointer w-6 h-6 lg:w-10 lg:h-10 bg-white rounded-full flex justify-center items-center transition hover:bg-neutral-300'
-              onClick={() => {}}
+              onClick={() => router.push(`watch/${data.id}`)}
             >
               <BsFillPlayFill size={30} />
             </div>

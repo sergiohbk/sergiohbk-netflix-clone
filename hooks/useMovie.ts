@@ -1,17 +1,8 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { MovieType } from './useMovieList';
 
-interface MovieType {
-  id: string;
-  title: string;
-  description: string;
-  videoUrl: string;
-  thumnailUrl: string;
-  genre: string;
-  duration: string;
-}
-
-function useBillboard(url: string) {
+function useMovie(url: string) {
   const [data, setData] = useState<MovieType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,9 +19,10 @@ function useBillboard(url: string) {
       }
     };
     fetchData();
+    console.log('useFavorites fetch data');
   }, [url]);
 
   return { data, loading, error };
 }
 
-export default useBillboard;
+export default useMovie;
