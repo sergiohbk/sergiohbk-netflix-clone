@@ -5,7 +5,7 @@ import { AiOutlinePlus, AiOutlineCheck } from 'react-icons/ai';
 
 interface FavoriteButtonProps {
   movieId: string;
-  refetch?: () => void;
+  refetch: () => void;
   updateUser: (user: UserType) => void;
 }
 

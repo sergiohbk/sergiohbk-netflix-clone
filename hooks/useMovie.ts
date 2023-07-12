@@ -10,6 +10,7 @@ function useMovie(url: string) {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (url.includes('undefined')) return;
         const response = await axios.get<MovieType>(url);
         setData(response.data);
       } catch (err: any) {
@@ -19,7 +20,6 @@ function useMovie(url: string) {
       }
     };
     fetchData();
-    console.log('useFavorites fetch data');
   }, [url]);
 
   return { data, loading, error };

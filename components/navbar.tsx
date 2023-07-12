@@ -28,8 +28,18 @@ const Navbar = () => {
     setShowMobileMenu((prev) => !prev);
   }, []);
 
-  const toggleAccountHover = useCallback((open: boolean) => {
-    setShowAccountMenu(open);
+  const toggleAccountEnter = useCallback(() => {
+    setShowAccountMenu(true);
+  }, []);
+
+  const toggleAccountLeaveTimeOut = useCallback(() => {
+    setTimeout(() => {
+      setShowAccountMenu(false);
+    }, 300);
+  }, []);
+
+  const toggleAccountLeave = useCallback(() => {
+    setShowAccountMenu(false);
   }, []);
 
   return (
@@ -71,25 +81,34 @@ const Navbar = () => {
           <div className='text-gray-200 hover:text-gray-300 cursor-pointer transition'>
             <BsBell />
           </div>
-          <div className='flex flex-row items-center gap-2 cursor-pointer relative'>
-            <div className='w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden'>
-              <Image
-                src='/images/netflix-default-avatar.png'
-                alt='profile avatar'
-                className='h-full w-full object-cover'
-                placeholder='blur'
-                blurDataURL='/images/netflix-default-avatar.png'
-                width={150}
-                height={150}
+          <div
+            onMouseEnter={toggleAccountEnter}
+            onMouseLeave={toggleAccountLeave}
+          >
+            <div className='flex flex-row items-center gap-2 cursor-pointer relative'>
+              <div className='w-6 h-6 lg:w-10 lg:h-10 rounded-md overflow-hidden'>
+                <Image
+                  src='/images/netflix-default-avatar.png'
+                  alt='profile avatar'
+                  className='h-full w-full object-cover'
+                  placeholder='blur'
+                  blurDataURL='/images/netflix-default-avatar.png'
+                  width={150}
+                  height={150}
+                />
+              </div>
+
+              <BsChevronDown
+                className={`text-white text-xs transition ${
+                  showAccountMenu ? 'rotate-180' : 'rotate-0'
+                }`}
               />
+              <AccountMenu
+                onMouseEnter={toggleAccountEnter}
+                onMouseLeave={toggleAccountLeave}
+                visible={showAccountMenu}
+              ></AccountMenu>
             </div>
-            <BsChevronDown
-              onMouseOver={() => toggleAccountHover(true)}
-              className={`text-white text-xs transition ${
-                showAccountMenu ? 'rotate-180' : 'rotate-0'
-              }`}
-            />
-            <AccountMenu visible={showAccountMenu}></AccountMenu>
           </div>
         </div>
       </div>

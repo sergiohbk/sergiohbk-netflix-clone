@@ -4,17 +4,25 @@ import { signOut, useSession } from 'next-auth/react';
 
 interface AccountMenuProps {
   visible: boolean;
+  onMouseEnter?: () => void;
+  onMouseLeave?: () => void;
 }
 
 const AccountMenu: React.FC<AccountMenuProps> = ({
   visible,
+  onMouseEnter = () => {},
+  onMouseLeave = () => {},
 }) => {
   const { data: session } = useSession();
   if (!visible) return null;
 
   return (
     <div className='bg-black w-56 absolute top-14 right-0 py-5 flex-col flex border-2 border-gray-800 '>
-      <div className='flex-col flex gap-3'>
+      <div
+        onMouseOver={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        className='flex-col flex gap-3'
+      >
         <div className='px-3 group/item flex flex-row gap-3 items-center w-full'>
           <Image
             src='/images/netflix-default-avatar.png'

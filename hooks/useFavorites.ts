@@ -20,7 +20,6 @@ function useFavorites(url: string) {
       }
     };
     fetchData();
-    console.log('useFavorites fetch data');
   }, [url, trigger]);
 
   const refetch = () => {
