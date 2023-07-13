@@ -24,11 +24,11 @@ const Billboard = () => {
         poster={data?.thumnailUrl}
         src={data?.videoUrl}
       ></video>
-      <div className='absolute top-[30%] md:top-[40%] ml-4 md:ml-16'>
-        <p className='text-white text-1xl md:text-5xl h-full w-[50%] lg:text-6xl font-bold drop-shadow-xl'>
+      <div className='absolute top-[30%] md:top-[20%] ml-4 md:ml-16'>
+        <p className='text-white text-1xl md:text-5xl h-full w-[50%] md:w-[60%] lg:text-6xl font-bold drop-shadow-xl'>
           {data?.title}
         </p>
-        <p className='text-white text-[8px] md:text-lg lg:text-1xl h-full w-[65%] mt-3 md:mt-8 drop-shadow-xl'>
+        <p className='text-white text-[8px] portrait:text-sm md:text-xl lg:text-1xl h-full w-[65%] mt-3 md:mt-8 drop-shadow-xl'>
           {data?.description && data?.description.includes('.')
             ? `${data.description.split('.')[0]}...`
             : data?.description}

@@ -1,9 +1,11 @@
+'use client';
 import Image from 'next/image';
 import NavbarItem from '@/components/navbaritem';
 import { BsBell, BsChevronDown, BsSearch } from 'react-icons/bs';
 import MobileMenu from '@/components/mobilemenu';
 import AccountMenu from '@/components/accountmenu';
 import { useCallback, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const TOP_OFFSET = 66;
 
@@ -11,35 +13,43 @@ const Navbar = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [showAccountMenu, setShowAccountMenu] = useState(false);
   const [showBackground, setShowBackground] = useState(false);
+  const [hideMenu, setHideMenu] = useState(false);
+  const router = useRouter();
+
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > TOP_OFFSET) setShowBackground(true);
       else setShowBackground(false);
     };
 
+    if (hideMenu) {
+      const timeoutId = setTimeout(() => {
+        setShowAccountMenu(false);
+      }, 300);
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    }
+
     window.addEventListener('scroll', handleScroll);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [hideMenu]);
 
   const toggleMobileMenu = useCallback(() => {
     setShowMobileMenu((prev) => !prev);
   }, []);
 
   const toggleAccountEnter = useCallback(() => {
+    setHideMenu(false);
     setShowAccountMenu(true);
   }, []);
 
-  const toggleAccountLeaveTimeOut = useCallback(() => {
-    setTimeout(() => {
-      setShowAccountMenu(false);
-    }, 300);
-  }, []);
-
   const toggleAccountLeave = useCallback(() => {
-    setShowAccountMenu(false);
+    setHideMenu(true);
   }, []);
 
   return (
@@ -51,12 +61,13 @@ const Navbar = () => {
       `}
       >
         <Image
-          className='h-4 lg:h-7 w-auto'
+          className='h-4 lg:h-7 w-auto cursor-pointer'
           src='/images/netflix.png'
           alt='netflix logo'
           width={150}
           height={150}
           priority={true}
+          onClick={() => router.push('/')}
         ></Image>
         <div className='flex-row ml-8 gap-7 hidden lg:flex'>
           <NavbarItem label='Series' />

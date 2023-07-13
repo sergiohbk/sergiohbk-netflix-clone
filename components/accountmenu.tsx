@@ -1,3 +1,4 @@
+'use client';
 import React from 'react';
 import Image from 'next/image';
 import { signOut, useSession } from 'next-auth/react';
@@ -17,11 +18,11 @@ const AccountMenu: React.FC<AccountMenuProps> = ({
   if (!visible) return null;
 
   return (
-    <div className='bg-black w-56 absolute top-14 right-0 py-5 flex-col flex border-2 border-gray-800 '>
+    <div className='bg-black w-40 absolute top-14 right-0 flex-col flex border-2 border-gray-800 '>
       <div
         onMouseOver={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        className='flex-col flex gap-3'
+        className='flex-col flex gap-3 w-auto py-5'
       >
         <div className='px-3 group/item flex flex-row gap-3 items-center w-full'>
           <Image
