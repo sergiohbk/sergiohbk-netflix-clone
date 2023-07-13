@@ -25,7 +25,7 @@ export default function Home() {
       ></InfoModal>
       <Navbar></Navbar>
       <Billboard></Billboard>
-      <div>
+      <div className='mt-4'>
         <MovieList
           title='En tendencia'
           data={data}
@@ -33,7 +33,7 @@ export default function Home() {
           updateUser={updateUser}
         ></MovieList>
       </div>
-      <div className='pb-40'>
+      <div className='lg:mt-4 mt-20'>
         <MovieList
           title='Mi Lista'
           data={favorites}

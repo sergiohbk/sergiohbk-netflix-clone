@@ -26,7 +26,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
   return (
     <div className='group bg-zinc-900 col-span relative h-[20vw]'>
       <Image
-        className='cursor-pointer w-auto h-[20vw] object-cover transition duration shadow-xl rounded-md group-hover:opacity-90 sm:group-hover:opacity-0 delay-300 '
+        className='cursor-pointer lg:w-[13vw] lg:h-[20vw] h-[28vw] w-[18vw] object-cover transition duration shadow-xl rounded-md group-hover:opacity-90 sm:group-hover:opacity-0 delay-300 '
         src={data.thumnailUrl}
         alt='movie'
         width={150}
