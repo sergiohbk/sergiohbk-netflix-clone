@@ -1,3 +1,4 @@
+'use client';
 import useUser, { UserType } from '@/hooks/useUser';
 import axios from 'axios';
 import { useCallback, useMemo, useEffect } from 'react';
@@ -30,6 +31,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
           movieId,
         })
         .then((response) => {
+          console.log('entra' + response.data);
           updateUser(response.data as UserType);
           refetch?.();
         });

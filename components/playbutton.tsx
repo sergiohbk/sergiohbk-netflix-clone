@@ -1,3 +1,4 @@
+'use client';
 import { BsFillPlayFill } from 'react-icons/bs';
 import { useRouter } from 'next/navigation';
 

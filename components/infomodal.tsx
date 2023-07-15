@@ -1,3 +1,4 @@
+'use client';
 import { useCallback, useState, useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import PlayButton from './playbutton';
@@ -16,8 +17,8 @@ interface InfoModalProps {
 const InfoModal: React.FC<InfoModalProps> = ({
   visible,
   onClose,
-  updateUser = (user: UserType) => {},
-  refetch = () => {},
+  updateUser,
+  refetch,
 }) => {
   const [isVisible, setIsVisible] = useState(!!visible);
   const { movieId } = useInfoModal();

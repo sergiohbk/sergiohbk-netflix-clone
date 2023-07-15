@@ -33,7 +33,7 @@ export default function Home() {
           updateUser={updateUser}
         ></MovieList>
       </div>
-      <div className='lg:mt-4 mt-20'>
+      <div className='lg:mt-4 mt-20 pb-10'>
         <MovieList
           title='Mi Lista'
           data={favorites}

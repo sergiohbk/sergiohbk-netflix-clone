@@ -26,7 +26,7 @@ function useUser(url: string) {
       }
     };
     fetchData();
-  }, [url]);
+  }, [url, data]);
 
   const updateUser = (updatedUser: UserType) => {
     setData(updatedUser);
