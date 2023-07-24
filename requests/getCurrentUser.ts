@@ -1,10 +1,8 @@
-import prisma from '@/lib/prismadb';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getSession } from 'next-auth/react';
 
 const getCurrentUser = async () => {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getSession();
     if (!session) return null;
 
     if (!session?.user) {

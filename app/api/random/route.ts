@@ -1,9 +1,8 @@
 import { NextResponse } from 'next/server';
 import prismadb from '@/lib/prismadb';
-import { NextApiRequest } from 'next';
 import getCurrentUser from '@/requests/getCurrentUser';
 
-export async function GET(req: NextApiRequest) {
+export async function GET() {
   try {
     const user = await getCurrentUser();
     if (!user)

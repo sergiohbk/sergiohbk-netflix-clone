@@ -7,5 +7,13 @@ export default withAuth({
 });
 
 export const config = {
-  matcher: ['/profile/:path*', '/'],
+  matcher: [
+    '/profile/:path*',
+    '/',
+    '/api/random/:path*',
+    '/api/movies/:path*',
+    '/api/loggeduser/:path*',
+    '/api/favorite/:path*',
+    '/api/favorites/:path*',
+  ],
 };
