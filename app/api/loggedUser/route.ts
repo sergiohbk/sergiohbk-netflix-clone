@@ -1,11 +1,10 @@
-import authOptions from '../auth/[...nextauth]/auth';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prismadb';
 import { getServerSession } from 'next-auth';
 
 export async function GET(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
     if (!session?.user)
       return new NextResponse(
         'No se ha podido recuperar el usuario',

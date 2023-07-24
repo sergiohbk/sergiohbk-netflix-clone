@@ -1,11 +1,10 @@
 import prisma from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import authOptions from '../auth/[...nextauth]/auth';
 
 export async function POST(req: Request) {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
     const body = await req.json();
     const { movieId } = body;
     if (!session?.user)

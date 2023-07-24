@@ -1,11 +1,10 @@
 import prisma from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import authOptions from '../auth/[...nextauth]/auth';
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession();
 
     if (!session?.user)
       return new NextResponse(
