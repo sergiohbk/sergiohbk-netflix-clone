@@ -1,11 +1,12 @@
-import getCurrentUser from '@/requests/getCurrentUser';
+import authOptions from '../auth/[...nextauth]/auth';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/prismadb';
+import { getServerSession } from 'next-auth';
 
 export async function GET(req: Request) {
   try {
-    const user = await getCurrentUser();
-    if (!user)
+    const session = await getServerSession(authOptions);
+    if (!session?.user)
       return new NextResponse(
         'No se ha podido recuperar el usuario',
         { status: 401 },
@@ -13,7 +14,7 @@ export async function GET(req: Request) {
 
     const actualUser = await prisma.user.findUnique({
       where: {
-        email: user.email || '',
+        email: session.user.email || '',
       },
       select: {
         id: true,

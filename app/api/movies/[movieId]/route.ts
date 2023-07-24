@@ -1,6 +1,5 @@
 import prisma from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
-import getCurrentUser from '@/requests/getCurrentUser';
 
 export async function GET(
   req: Request,
@@ -11,13 +10,6 @@ export async function GET(
   },
 ) {
   try {
-    const user = await getCurrentUser();
-    if (!user)
-      return new NextResponse(
-        'No se ha podido recuperar el usuario',
-        { status: 401 },
-      );
-
     if (!params.movieId)
       return new NextResponse(
         'No se ha podido recuperar la pelicula',
