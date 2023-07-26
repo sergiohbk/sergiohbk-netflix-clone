@@ -1,3 +1,4 @@
+'use client';
 import Navbar from '@/components/navbar';
 import Billboard from '@/components/billboard';
 import MovieList from '@/components/movielist';
