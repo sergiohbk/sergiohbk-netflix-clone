@@ -3,6 +3,7 @@ import { without } from 'lodash';
 import prisma from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import getUser from '@/request/getuser';
 
 export async function DELETE(
   req: Request,
@@ -13,7 +14,7 @@ export async function DELETE(
   },
 ) {
   try {
-    const session = await getServerSession();
+    const session = await getUser();
     if (!session?.user)
       return new NextResponse(
         'No se ha podido recuperar el usuario',

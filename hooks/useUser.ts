@@ -1,5 +1,6 @@
 'use client';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 import { useState, useEffect } from 'react';
 
 export interface UserType {
@@ -14,6 +15,7 @@ function useUser(url: string) {
   const [data, setData] = useState<UserType | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  //const { data: session } = useSession();
 
   useEffect(() => {
     const fetchData = async () => {

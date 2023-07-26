@@ -31,7 +31,6 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
           movieId,
         })
         .then((response) => {
-          console.log('entra' + response.data);
           updateUser(response.data as UserType);
           refetch?.();
         });

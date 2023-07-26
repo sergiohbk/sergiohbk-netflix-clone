@@ -1,10 +1,11 @@
 import prisma from '@/lib/prismadb';
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import getUser from '@/request/getuser';
 
 export async function GET() {
   try {
-    const session = await getServerSession();
+    const session = await getUser();
 
     if (!session?.user)
       return new NextResponse(
